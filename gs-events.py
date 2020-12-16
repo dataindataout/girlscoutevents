@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 # import libraries
 
 from selenium import webdriver
@@ -22,10 +19,6 @@ from datetime import datetime
 from pangres import upsert
 from sqlalchemy import create_engine
 
-
-# In[2]:
-
-
 # retrieve and parse html 
 
 options = Options()
@@ -36,8 +29,13 @@ options.add_argument("--window-size=1920,1200")
 DRIVER_PATH = '/Applications/chromedriver' 
 driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 
-# add urls to list here as needed
-urls = [     "https://www.nccoastalpines.org/en/activities/activity-list.advanced.html",     "https://www.girlscoutstoday.org/en/events/event-list.advanced.html",     "https://www.girlscoutsww.org/en/events/event-list.advanced.html",     "https://www.citrus-gs.org/en/events/event-list.advanced.html",         ]
+# add urls to list here as needed; some of our favorite councils for virtual events
+urls = [ \
+    "https://www.nccoastalpines.org/en/activities/activity-list.advanced.html", \
+    "https://www.girlscoutstoday.org/en/events/event-list.advanced.html",  \
+    "https://www.girlscoutsww.org/en/events/event-list.advanced.html",  \
+    "https://www.citrus-gs.org/en/events/event-list.advanced.html",  \
+        ]
 
 # initiate list buckets
 links = []
@@ -89,10 +87,6 @@ for url in urls:
 
 driver.quit()
 
-
-# In[3]:
-
-
 # put data in a dataframe
 # don't strictly need a df here, except pangres uses it
 
@@ -107,10 +101,6 @@ df = pd.DataFrame({
 
 # set an index, as code below will need it; this also removes default ID
 df.set_index('uniquekey', inplace=True)
-
-
-# In[4]:
-
 
 # pangres / sqlalchemy upsert
 
@@ -131,10 +121,6 @@ upsert(engine=engine,
        table_name='events',
        if_row_exists='update',
        dtype=None)
-
-
-# In[5]:
-
 
 # delete from database where enddate < today (this really should be registration date, when available)
 
