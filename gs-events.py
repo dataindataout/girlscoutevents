@@ -50,7 +50,6 @@ for url in urls:
     # click and submit
     driver.get(url)
     driver.find_element_by_id("sf-activities:program-level/seniors").click()
-    # driver.find_element_by_partial_link_text("Seniors").click()
     driver.find_element_by_id("sub").submit()
 
     # here's the page, make the soup
